@@ -24,6 +24,8 @@ import fnmatch
 
 root_dir = "/"
 
+PCI_NUM_BARS = 13
+
 def set_root_dir(dir):
     global root_dir
     root_dir = dir
@@ -519,7 +521,7 @@ class PCIBARs:
         self.mask = []
         f = input_open(os.path.join(dir, 'resource'), 'r')
         n = 0
-        while (n < 6):
+        while (n < PCI_NUM_BARS):
             (start, end, flags) = f.readline().split()
             n += 1
             flags = int(flags, 16)

@@ -31,7 +31,7 @@
 
 #define PCI_CONFIG_HEADER_SIZE	0x40
 
-#define PCI_NUM_BARS		6
+#define PCI_NUM_BARS		13
 
 #define PCI_DEV_CLASS_OTHER	0xff
 

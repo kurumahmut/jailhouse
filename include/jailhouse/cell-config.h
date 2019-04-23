@@ -69,6 +69,8 @@
 
 #define JAILHOUSE_CELL_DESC_SIGNATURE	"JHCELL"
 
+#define PCI_NUM_BARS   13
+
 /**
  * The jailhouse cell configuration.
  *
@@ -159,7 +161,7 @@ struct jailhouse_pci_device {
 	__u8 iommu;
 	__u16 domain;
 	__u16 bdf;
-	__u32 bar_mask[6];
+	__u32 bar_mask[PCI_NUM_BARS];
 	__u16 caps_start;
 	__u16 num_caps;
 	__u8 num_msi_vectors;

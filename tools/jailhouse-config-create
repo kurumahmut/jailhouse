@@ -71,7 +71,7 @@ parser.add_argument('-c', '--console',
                     type=str)
 
 memargs = [['--mem-inmates', '76M', 'inmate'],
-           ['--mem-hv', '6M', 'hypervisor']]
+           ['--mem-hv', '16M', 'hypervisor']]
 
 for entry in memargs:
     parser.add_argument(entry[0],
