@@ -41,6 +41,9 @@
 
 #include <jailhouse/console.h>
 
+#define CONFIG_TRACE_ERROR 1
+#define CONFIG_CRASH_CELL_ON_PANIC
+
 /*
  * Incremented on any layout or semantic change of system or cell config.
  * Also update HEADER_REVISION in tools.

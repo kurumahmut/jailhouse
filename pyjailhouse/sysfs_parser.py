@@ -564,7 +564,7 @@ class PCICapability:
     JAILHOUSE_PCI_EXT_CAP = 0x8000
 
     @staticmethod
-    def parse_pcicaps(dir):
+    def parse_pcicaps(dir, domain, bus, df):
         caps = []
         has_extended_caps = False
         f = input_open(os.path.join(dir, 'config'), 'rb')
@@ -616,8 +616,26 @@ class PCICapability:
                 msix_address = \
                     (bar & 0xfffffffffffffff0) + (table & 0xfffffff8)
                 flags = PCICapability.RW
+
+            elif id == 0x9:  # Vendor Specific Information ID
+                f.seek(cap+2)
+                (len,) = struct.unpack('B', f.read(1))
+                flags = PCICapability.RD
+            elif id == 0x13:  # PCI Advanced Features ID
+                len = 6
+                flags = PCICapability.RD
+            elif id == 0xA:  # Debug port ID
+                len = 64
+                flags = PCICapability.RD
+            elif id == 0xD:  # Bridge subsystem vendor/device ID
+                len = 2     # do not care
+                flags = PCICapability.RD
+
             else:
                 # unknown/unhandled cap, mark its existence
+                print('WARN: PCI Capability Unknown id: %2d: at 0x%x' 
+                        ' domain: %x' ' bus: %x' ' df: %x.%x' % (id, cap, domain, bus, int(df[0], 16), int(df[1], 16)))
+
                 len = 2
                 flags = PCICapability.RD
             f.seek(cap + 2)
@@ -716,7 +734,7 @@ class PCIDevice:
         bus = int(a[1], 16)
         df = a[2].split('.')
         bars = PCIBARs(dpath)
-        caps = PCICapability.parse_pcicaps(dpath)
+        caps = PCICapability.parse_pcicaps(dpath, domain, bus, df)
         return PCIDevice(type, domain, bus, int(df[0], 16), int(df[1], 16),
                          bars, caps, dpath)
 
