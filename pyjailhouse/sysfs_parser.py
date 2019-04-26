@@ -24,7 +24,7 @@ import fnmatch
 
 root_dir = "/"
 
-PCI_NUM_BARS = 13
+PCI_NUM_BARS = 6
 
 def set_root_dir(dir):
     global root_dir

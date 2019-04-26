@@ -72,7 +72,7 @@
 
 #define JAILHOUSE_CELL_DESC_SIGNATURE	"JHCELL"
 
-#define PCI_NUM_BARS   13
+#define PCI_NUM_BARS   6
 
 /**
  * The jailhouse cell configuration.
