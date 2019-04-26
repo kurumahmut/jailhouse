@@ -169,6 +169,9 @@ static void ioapic_mask_cell_pins(struct cell_ioapic *ioapic,
 	union ioapic_redir_entry entry;
 	unsigned int pin, reg;
 
+	return; /*ENTER key was pressed at keyboard...*/
+
+
 	for (pin = 0; pin < phys_ioapic->pins; pin++) {
 		if (!test_bit(pin, (unsigned long *)ioapic->pin_bitmap))
 			continue;
@@ -204,7 +207,7 @@ void ioapic_prepare_handover(void)
 	unsigned int n;
 
 	for_each_cell_ioapic(ioapic, &root_cell, n)
-		ioapic_mask_cell_pins(ioapic, PINS_ACTIVE);
+		_cell_pins(ioapic, PINS_ACTIVE);
 }
 
 int ioapic_get_or_add_phys(const struct jailhouse_irqchip *irqchip,
