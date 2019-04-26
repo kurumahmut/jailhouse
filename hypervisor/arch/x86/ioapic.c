@@ -207,7 +207,7 @@ void ioapic_prepare_handover(void)
 	unsigned int n;
 
 	for_each_cell_ioapic(ioapic, &root_cell, n)
-		_cell_pins(ioapic, PINS_ACTIVE);
+		ioapic_mask_cell_pins(ioapic, PINS_ACTIVE);
 }
 
 int ioapic_get_or_add_phys(const struct jailhouse_irqchip *irqchip,
