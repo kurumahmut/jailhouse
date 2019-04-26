@@ -193,10 +193,8 @@ struct {
 			.domain = ${hex(d.domain)},
 			.bdf = ${hex(d.bdf())},
 			.bar_mask = {
-                               ${'0x%08x' % d.bars.mask[0]}, ${'0x%08x' % d.bars.mask[1]}, ${'0x%08x' % d.bars.mask[2]}, ${'0x%08x' % d.bars.mask[3]},
-                               ${'0x%08x' % d.bars.mask[4]}, ${'0x%08x' % d.bars.mask[5]}, ${'0x%08x' % d.bars.mask[6]}, ${'0x%08x' % d.bars.mask[7]},
-                               ${'0x%08x' % d.bars.mask[8]}, ${'0x%08x' % d.bars.mask[9]}, ${'0x%08x' % d.bars.mask[10]}, ${'0x%08x' % d.bars.mask[11]},
-                               ${'0x%08x' % d.bars.mask[12]},
+                               ${'0x%08x' % d.bars.mask[0]}, ${'0x%08x' % d.bars.mask[1]}, ${'0x%08x' % d.bars.mask[2]}, 
+							   ${'0x%08x' % d.bars.mask[3]}, ${'0x%08x' % d.bars.mask[4]}, ${'0x%08x' % d.bars.mask[5]},
 			},
 			.caps_start = ${d.caps_start},
 			.num_caps = ${d.num_caps},
