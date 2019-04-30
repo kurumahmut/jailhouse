@@ -96,14 +96,13 @@ def input_listdir(dir, wildcards):
 
 
 def parse_iomem(pcidevices):
-    regions = IOMemRegionTree.parse_iomem_tree(
-        IOMemRegionTree.parse_iomem_file())
+    dmar_regions = []
+    regions = IOMemRegionTree.parse_iomem_tree(IOMemRegionTree.parse_iomem_file(), dmar_regions)
 
     rom_region = MemRegion(0xc0000, 0xdffff, 'ROMs')
     add_rom_region = False
 
     ret = []
-    dmar_regions = []
     for r in regions:
         append_r = True
         # filter the list for MSI-X pages
@@ -898,9 +897,27 @@ class IOMemRegionTree:
 
         return regions
 
+    # find DMAR regions in tree
+    @staticmethod
+    def find_dmar_regions(tree):
+        regions = []
+
+        for tree in tree.children:
+            r = tree.region
+            s = r.typestr
+
+            if (s.find('dmar') >= 0):
+                regions.append(r)
+
+            # if the tree continues recurse further down ...
+            if (len(tree.children) > 0):
+                regions.extend(IOMemRegionTree.find_dmar_regions(tree))
+
+        return regions
+
     # recurse down the tree
     @staticmethod
-    def parse_iomem_tree(tree):
+    def parse_iomem_tree(tree, dmar_regions):
         regions = []
 
         for tree in tree.children:
@@ -921,14 +938,15 @@ class IOMemRegionTree:
             ):
                 continue
 
-            # generally blacklisted, unless we find an HPET behind it
+            # generally blacklisted, unless we find an HPET and DMAR behind it
             if (s.lower() == 'reserved'):
                 regions.extend(IOMemRegionTree.find_hpet_regions(tree))
+                regions.extend(IOMemRegionTree.parse_iomem_tree(tree, dmar_regions))
                 continue
 
             # if the tree continues recurse further down ...
             if (len(tree.children) > 0):
-                regions.extend(IOMemRegionTree.parse_iomem_tree(tree))
+                regions.extend(IOMemRegionTree.parse_iomem_tree(tree, dmar_regions))
                 continue
 
             # add all remaining leaves
