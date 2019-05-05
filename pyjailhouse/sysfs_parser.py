@@ -921,7 +921,7 @@ class IOMemRegionTree:
             # generally blacklisted, unless we find an HPET and DMAR behind it
             if (s.lower() == 'reserved'):
                 regions.extend(IOMemRegionTree.find_hpet_regions(tree))
-                regions.extend(IOMemRegionTree.parse_iomem_tree(tree, dmar_regions))
+                dmar_regions.extend(IOMemRegionTree.find_dmar_regions(tree)) 
                 continue
 
             # if the tree continues recurse further down ...
