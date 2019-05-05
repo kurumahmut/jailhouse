@@ -167,9 +167,6 @@ static void ioapic_mask_cell_pins(struct cell_ioapic *ioapic,
 	struct phys_ioapic *phys_ioapic = ioapic->phys_ioapic;
 	unsigned int pin, reg;
 
-	return; /*ENTER key was pressed at keyboard...*/
-
-
 	for (pin = 0; pin < phys_ioapic->pins; pin++) {
 		if (!test_bit(pin, (unsigned long *)ioapic->pin_bitmap))
 			continue;
