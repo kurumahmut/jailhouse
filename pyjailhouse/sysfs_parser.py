@@ -629,7 +629,10 @@ class PCICapability:
             elif id == 0xD:  # Bridge subsystem vendor/device ID
                 len = 2     # do not care
                 flags = PCICapability.RD
-
+            elif id == 0x12:  # SATA Data/Index Conf ID
+                len = 8
+                flags = PCICapability.RD
+                
             else:
                 # unknown/unhandled cap, mark its existence
                 print('WARN: PCI Capability Unknown id: %2d: at 0x%x' 
